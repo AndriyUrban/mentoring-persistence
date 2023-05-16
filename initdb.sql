@@ -1,31 +1,31 @@
 #1
 CREATE TABLE Libraries (
-  id SERIAL PRIMARY KEY,
-  name VARCHAR(20) NOT NULL,
-  address VARCHAR(20) NOT NULL
+  id BIGSERIAL PRIMARY KEY,
+  name VARCHAR(225) NOT NULL,
+  address VARCHAR(225) NOT NULL
 );
 
 #2
 CREATE TABLE Customers (
-  id SERIAL PRIMARY KEY,
-  firstName VARCHAR(20) NOT NULL,
-  lastName VARCHAR(20) NOT NULL,
-  age INT NOT NULL,
-  email VARCHAR(20) NOT NULL,
-  address VARCHAR(20) NOT NULL
+  id BIGSERIAL PRIMARY KEY,
+  first_name VARCHAR(225) NOT NULL,
+  last_name VARCHAR(225) NOT NULL,
+  age INT NOT NULL CHECK (age >= 12 AND age <= 100),
+  email VARCHAR(225) NOT NULL CHECK(email like '%@%'),
+  address VARCHAR(225) NOT NULL
 );
 
 #3
 CREATE TABLE Books (
-  id SERIAL PRIMARY KEY,
-  name VARCHAR(20) NOT NULL,
-  genre VARCHAR(20) NOT NULL,
-  author VARCHAR(20) NOT NULL,
+  id BIGSERIAL PRIMARY KEY,
+  name VARCHAR(225) NOT NULL,
+  genre VARCHAR(225) NOT NULL,
+  author VARCHAR(225) NOT NULL,
   customer_id INT,
-  isFree BOOLEAN NOT NULL DEFAULT TRUE,
-  taken_time TIMESTAMP,
+  is_free BOOLEAN NOT NULL DEFAULT TRUE,
+  taken_time  now(),
   quantity INT NOT NULL,
-  CONSTRAINT customer_dependency FOREIGN KEY (customer_id) REFERENCES Customers(id) ON DELETE SET NULL,
+  CONSTRAINT fk_customer_id FOREIGN KEY (customer_id) REFERENCES Customers(id) ON DELETE SET NULL,
   CONSTRAINT quantity_shold_be_nonnegative CHECK (quantity >= 0)
 );
 
